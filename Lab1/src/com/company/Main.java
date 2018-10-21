@@ -11,7 +11,7 @@ public class Main {
 
         Matrix matrix = new Matrix(size);
 
-	    matrix.getArray();
+	    matrix.fillArrayWithRandomNumbers();
         matrix.display();
 
         System.out.println();

@@ -10,7 +10,7 @@ class Matrix {
         matrixArray = new byte[size][size];
     }
 
-    public void getArray(){
+    public void fillArrayWithRandomNumbers(){
         Random random = new Random();
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
