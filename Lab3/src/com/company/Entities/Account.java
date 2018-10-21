@@ -1,53 +1,90 @@
 package com.company.Entities;
 
-import com.company.Helpers.NumberGenerator;
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Account {
-    private int _number;
-    private String _clientName;
-    private String _accountCode;
-    private ArrayList<Payment> _payments;
+    private static int index = 0;
+    private Payment[] payments;
 
-    public Account(String clientName, String accountCode){
-        _number = NumberGenerator.getNextAccountNumber();
-        _clientName = clientName;
-        _accountCode = accountCode;
-        _payments = new ArrayList<Payment>();
+    public Account(int size){
+        if(size > 0)
+            payments = new Payment[size];
+        else{
+            System.out.println("Cannot create account with negative size. Size will be converted into positive."
+                    + "\nAccount size is "+ -size);
+            payments = new Payment[-size];
+        }
+    }
+
+    public Payment[] getPayments(){
+        return  payments;
     }
 
     public  void addPayment(Payment payment){
-        _payments.add(payment);
+        if(index < payments.length){
+            payments[index] = payment;
+            index++;
+        }
+        else{
+            System.out.println("Array is full. Cannot add more payments");
+        }
     }
 
-    public List<Payment> getPaymentsWithSpecificPurpose(String purpose){
+    public Payment[] getPaymentsWithSpecificPurpose(String purpose){
         if(purpose == null && purpose.isEmpty())
-            return new ArrayList<>();
+            return new Payment[0];
 
-        return _payments.stream()
-                .filter(p -> p.getPurpose().equals(purpose))
+        List<Payment> list = Arrays.stream(payments)
+                .filter(payment -> payment != null && payment.getPurpose().equals(purpose))
                 .collect(Collectors.toList());
+
+        Payment[] selectedPayments = new Payment[list.size()];
+        list.toArray(selectedPayments);
+        return  selectedPayments;
     }
 
-    public  List<Payment> getLargerPayments(double expectedAmount){
+    public  Payment[] getLargerPayments(double expectedAmount){
         if(expectedAmount < 0)
-            return new ArrayList<>();
+            return new Payment[0];
 
-        return _payments.stream()
-                .filter(payment -> payment.getAmount() > expectedAmount)
+        List<Payment> list = Arrays.stream(payments)
+                .filter(payment -> payment != null && payment.getAmount() >= expectedAmount)
                 .collect(Collectors.toList());
+
+        Payment[] selectedPayments = new Payment[list.size()];
+        list.toArray(selectedPayments);
+        return  selectedPayments;
     }
 
-    public  List<Payment> getPaymentsInDateRange(Date startDate, Date endDate){
+    public  Payment[] getPaymentsInDateRange(Date startDate, Date endDate){
         if(startDate == null && endDate == null && startDate.after(endDate))
-            return new ArrayList<>();
+            return new Payment[0];
 
-        return _payments.stream()
-                .filter(payment -> payment.getDate().after(startDate) && payment.getDate().before(endDate))
+        List<Payment> list = Arrays.stream(payments)
+                .filter(payment -> payment != null && payment.getDate().after(startDate)
+                        && payment.getDate().before(endDate))
                 .collect(Collectors.toList());
+
+        Payment[] selectedPayments = new Payment[list.size()];
+        list.toArray(selectedPayments);
+        return  selectedPayments;
+    }
+
+    public static void displaySelectedPayments(Payment[] payments){
+        if(payments.length == 0){
+            System.out.println("No payments found");
+        }
+        else{
+            for (Payment payment: payments) {
+                if(payment == null)
+                    continue;
+                System.out.println(payment);
+            }
+        }
+
+        System.out.println();
     }
 }
