@@ -11,31 +11,44 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Account account1;
-        Scanner in = new Scanner(System.in);
+        Account account1 = initializeAccount();
 
+        fillAccount(account1);
+
+        searchForPayments(account1);
+    }
+
+    private static Account initializeAccount(){
+        Scanner in = new Scanner(System.in);
+        Account account;
         while(true){
             try {
                 System.out.print("Enter account max size: ");
                 int input = Integer.parseInt(in.nextLine());
-                account1 = new Account(input);
-                break;
+                account = new Account(input);
+                return account;
             }
             catch (NumberFormatException e){
                 System.out.println("Wrong size format. Please try again");
             }
         }
+    }
 
+    private static void fillAccount(Account account){
+        Scanner in = new Scanner(System.in);
         while (true) {
             System.out.print("Would you like to create payment manually ('Yes' or 'No')? ");
             String input = in.nextLine();
             if (input.equals("No")){
-                fillAccountWithPayments(account1, getTestPayments());
+                fillAccountWithPayments(account, getTestPayments());
                 break;
             }
-            account1.addPayment(Payment.createPayment());
+            account.addPayment(Payment.createPayment());
         }
+    }
 
+    private static void searchForPayments(Account account){
+        Scanner in = new Scanner(System.in);
         while(true){
             System.out.println("Enter search type \n1. By purpose \n2. By amount \n3. By date range " +
                     "\n4. View all payments");
@@ -46,7 +59,7 @@ public class Main {
                     String purpose = in.nextLine();
 
                     System.out.println("Payments By Purpose");
-                    Payment[] paymentsByPurpose = account1.getPaymentsWithSpecificPurpose(purpose);
+                    Payment[] paymentsByPurpose = account.getPaymentsWithSpecificPurpose(purpose);
                     Account.displaySelectedPayments(paymentsByPurpose);
                     break;
                 }
@@ -55,7 +68,7 @@ public class Main {
                     try{
                         double expectedAmount = Double.parseDouble(in.nextLine());
                         System.out.println("Payments Larger Than " + expectedAmount);
-                        Payment[] paymentsLargerThanAmount = account1.getLargerPayments(expectedAmount);
+                        Payment[] paymentsLargerThanAmount = account.getLargerPayments(expectedAmount);
                         Account.displaySelectedPayments(paymentsLargerThanAmount);
                     }
                     catch (NumberFormatException e){
@@ -71,12 +84,12 @@ public class Main {
 
                     System.out.println("Payments In Date Range " + parseDate(startDate)
                             + " - " + parseDate(endDate));
-                    Payment[] paymentsInDateRange = account1.getPaymentsInDateRange(startDate, endDate);
+                    Payment[] paymentsInDateRange = account.getPaymentsInDateRange(startDate, endDate);
                     Account.displaySelectedPayments(paymentsInDateRange);
                     break;
                 }
                 case "4":{
-                    Account.displaySelectedPayments(account1.getPayments());
+                    Account.displaySelectedPayments(account.getPayments());
                     break;
                 }
                 default:{
