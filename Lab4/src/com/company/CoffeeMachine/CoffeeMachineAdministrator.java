@@ -1,7 +1,9 @@
 package com.company.CoffeeMachine;
 
 import com.company.Beverages.*;
+import com.company.Beverages.Exceptions.BeverageNotFoundException;
 import com.company.Condiments.*;
+import com.company.Condiments.Exceptions.CondimentNotFoundException;
 
 import java.util.ArrayList;
 
@@ -24,33 +26,42 @@ public class CoffeeMachineAdministrator {
     }
 
     static {
-        standartBeverageSet = new ArrayList<>();
-        for(int i = 0; i < 50; i++) {
-            if (i < 15) {
-                standartBeverageSet.add(new Americano());
-            } else if (i < 30) {
-                standartBeverageSet.add(new Espresso());
-            } else if (i < 40) {
-                standartBeverageSet.add(new Cappuccino());
-            } else {
-                standartBeverageSet.add(new IceCoffee());
+        try{
+            standartBeverageSet = new ArrayList<>();
+            for(int i = 0; i < 50; i++) {
+                if (i < 15) {
+                    standartBeverageSet.add(Beverage.createBeverage("Americano"));
+                } else if (i < 30) {
+                    standartBeverageSet.add(Beverage.createBeverage("Espresso"));
+                } else if (i < 40) {
+                    standartBeverageSet.add(Beverage.createBeverage("Cappuccino"));
+                } else {
+                    standartBeverageSet.add(Beverage.createBeverage("Ice Coffee"));
+                }
             }
+        }
+        catch (BeverageNotFoundException ex){
         }
 
         standartCondimentSet = new ArrayList<>();
-        for(int i = 0; i < 100; i++){
-            if(i < 25){
-                standartCondimentSet.add(new Milk());
+        try{
+            for(int i = 0; i < 100; i++){
+                if(i < 25){
+                    standartCondimentSet.add(Condiment.createCondiment("Milk"));
+                }
+                else if(i < 50){
+                    standartCondimentSet.add(Condiment.createCondiment("Whip"));
+                }
+                else if(i < 75){
+                    standartCondimentSet.add(Condiment.createCondiment("Cinnamon"));
+                }
+                else{
+                    standartCondimentSet.add(Condiment.createCondiment("Sugar"));
+                }
             }
-            else if(i < 50){
-                standartCondimentSet.add(new Whip());
-            }
-            else if(i < 75){
-                standartCondimentSet.add(new Cinnamon());
-            }
-            else{
-                standartCondimentSet.add(new Sugar());
-            }
+        }
+        catch (CondimentNotFoundException ex){
+
         }
     }
 }

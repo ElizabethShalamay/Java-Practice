@@ -1,6 +1,6 @@
 package com.company.CoffeeMachine;
 
-import com.company.Beverages.Beverage;
+import com.company.Beverages.*;
 import com.company.Beverages.Exceptions.BeverageNotFoundException;
 import com.company.Condiments.Condiment;
 import com.company.Condiments.Exceptions.CondimentNotFoundException;
