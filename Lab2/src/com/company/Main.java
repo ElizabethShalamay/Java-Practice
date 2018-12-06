@@ -9,9 +9,9 @@ public class Main {
         System.out.println("Enter text: ");
 
         Scanner scanner = new Scanner(System.in);
-        String inputText = scanner.nextLine();
 
-        Pattern pattern = Pattern.compile("\u0412|\u0432(\\w+)");
+        String inputText = scanner.nextLine();
+        Pattern pattern = Pattern.compile("(B|b)(\\w+)");
 
         int countMatch = countRegexMachings(pattern, inputText);
 
@@ -24,6 +24,7 @@ public class Main {
 
         int counter = 0;
         for (String word : words) {
+            System.out.println(word);
             if (pattern.matcher(word).find()) {
                 counter++;
             }

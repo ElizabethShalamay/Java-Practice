@@ -14,7 +14,10 @@ class Matrix {
         Random random = new Random();
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                matrixArray[i][j] = (byte)random.nextInt(100);
+                matrixArray[i][j] = (byte)(random.nextInt(100) - 50);
+                if(matrixArray[i][j] % 3 == 0){
+                    matrixArray[i][j] = 0;
+                }
             }
         }
     }
